@@ -4,10 +4,10 @@ This project shows an example of a data structure with generic types in C.
 
 ## Introduction
 
-First of all: **there is no specific implementation for generic types in C**. Only after C++ the concept of generic type were born (using [templates or objects](https://web.eecs.utk.edu/~bvz/cs365/notes/generic-types.html)). But there are *two basic ways* to workaround with this: 
+First of all: **there is no specific implementation for generic types in C**. Only after C++ the concept of generic type were born (using [templates or objects](https://web.eecs.utk.edu/~bvz/cs365/notes/generic-types.html)). But there are **two basic ways** to workaround with this: 
 
- - The first way is using **empty pointers** (of `void *` type), requiring _downcast_ for the desired type before its manipulation. Thought this approach gives more power to the programmer (including to allow the use of functions as functions parameters -- an unthinkable thing on another programming languages), the _downcast_ is extremally unsafe, since the C language does not perform type check during execution time.
- - The second way is using **shared memory structures**, built using the `union` structure, combined with the `enum` structure (which contains the type index). This method is easier to depure than the pointer method, thought requeires certain attention for the programmer to control the value contained by the variable. 
+ - The first way is using **empty pointers** (of `void *` type), requiring _downcast_ for the desired type before its manipulation. Thought this approach gives more power to the programmer (including to allow the use of functions as functions parameters -- an unthinkable thing on another programming languages), the _downcast_ is extremally unsafe, since the C language does not perform type checking during execution time.
+ - The second way is using **shared memory structures**, built using the `union` structure combined with the `enum` structure (which contains the type index). This method is easier to depure than the pointer method, thought requeires certain attention for the programmer to control the value contained by the variable. 
 
 ## About This Project
 
@@ -72,7 +72,7 @@ printf("%i", arrayElement->value.i);
 printf("%s", arrayElement->value.s);
 ```
 
-However, if the variable type is available, it is possible to do:
+However, if the variable type is available, it is possible to do
 
 ```C
 switch (_arrayElement->type)
