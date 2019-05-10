@@ -6,7 +6,7 @@ Este projeto exibe um exemplo de estrutura de dados com um tipo genérico de dad
 
 Antes de tudo: **não há uma implementação específica para tipos genéricos em C**. Somente a partir do C++ surgiu o conceito de tipo genérico (por meio de [templates ou objetos](https://web.eecs.utk.edu/~bvz/cs365/notes/generic-types.html)). Mas há **duas formas básicas** de contornar tal problema: 
 
- - A primeira é por meio de **ponteiros vazios** (do tipo `void *`), exigindo um _downcast_ para o tipo apropriado da variável antes da manipulação desta. Embora isso dê um poder maior ao programador (inclusive permitindo utilizar funções como parâmetros de função -- algo impensável em outras linguagens de programação), o _downcast_ é extremamente inseguro, uma vez que a linguagem C não realiza checagem de tipos em tempo de execução.
+ - A primeira é por meio de **ponteiros vazios** (do tipo `void*`), exigindo um _downcast_ para o tipo apropriado da variável antes da manipulação desta. Embora isso dê um poder maior ao programador (inclusive permitindo utilizar funções como parâmetros de função -- algo impensável em outras linguagens de programação), o _downcast_ é extremamente inseguro, uma vez que a linguagem C não realiza checagem de tipos em tempo de execução.
  - A segunda forma é por meio de **estruturas com memória compartilhada**, construída usando uma estrutura `union` combinada com uma estrutura `enum` (contendo o índice dos tipos). Tal método é mais fácil de ser depurado do que trabalhar com ponteiros, embora exija um certa atenção do programador para gerenciar o valor contido na variável. 
 
 ## Sobre Este Projeto
@@ -101,7 +101,7 @@ o que garante que os dados possam ser tratados corretamente.
 
 ## Informações Adicionais
 
-Como é um trabalho em progresso, provavelmente adicionarei algumas coisas futuramente (e.g, pilhas, matrizes esparsas e árvores). Fique atento!
+Como isso é um trabalho em progresso, provavelmente adicionarei algumas coisas futuramente (e.g, pilhas, matrizes esparsas e árvores). Fique atento!
 
 ## Licença de Uso
 
