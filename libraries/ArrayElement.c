@@ -49,6 +49,7 @@ void setAsChar_ArrayElement(ArrayElement *_arrayElement, char _value)
 
     _arrayElement->type = CHAR;
     _arrayElement->value.c = _value;
+    _arrayElement->next = NULL;
 
     return;
 }
@@ -60,6 +61,7 @@ void setAsFloat_ArrayElement(ArrayElement *_arrayElement, float _value)
 
     _arrayElement->type = FLOAT;
     _arrayElement->value.f = _value;
+    _arrayElement->next = NULL;
 
     return;
 }
@@ -71,6 +73,7 @@ void setAsInt_ArrayElement(ArrayElement *_arrayElement, int _value)
 
     _arrayElement->type = INTEGER;
     _arrayElement->value.i = _value;
+    _arrayElement->next = NULL;
 
     return;
 }
@@ -82,6 +85,7 @@ void setAsString_ArrayElement(ArrayElement *_arrayElement, char* _value)
 
     _arrayElement->type = STRING;
     _arrayElement->value.s = _value;
+    _arrayElement->next = NULL;
 
     return;
 }
