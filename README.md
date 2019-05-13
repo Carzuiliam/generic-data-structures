@@ -4,14 +4,14 @@ This project shows an example of a data structure with generic types in C.
 
 ## Introduction
 
-First of all: **there is no specific implementation for generic types in C**. Only after C++ the concept of generic type were born (using [templates or objects](https://web.eecs.utk.edu/~bvz/cs365/notes/generic-types.html)). But there are **two basic ways** to workaround with this: 
+First of all: **there is no specific implementation for generic types in C**. Only after C++ the concept of generic type were born (using [templates or objects](https://web.eecs.utk.edu/~bvz/cs365/notes/generic-types.html)). But there are **2 (two) basic ways** to workaround with this: 
 
- - The first way is using **empty pointers** (of `void*` type), requiring _downcast_ for the desired type before its manipulation. Thought this approach gives more power to the programmer (including to allow the use of functions as functions parameters -- an unthinkable thing on another programming languages), the _downcast_ is extremally unsafe, since the C language does not perform type checking during execution time.
- - The second way is using **shared memory structures**, built using the `union` structure combined with the `enum` structure (which contains the type index). This method is easier to depure than the pointer method, thought requeires certain attention for the programmer to control the value contained by the variable. 
+ - The first way is using **empty pointers** (of `void*` type), requiring _downcast_ for the desired type before its manipulation. Thought this approach gives more power to the programmer (including to allow the use of functions as functions parameters -- an unthinkable thing on another programming languages), the _downcast_ is extremely unsafe, since the C language does not perform type checking during execution time.
+ - The second way is using **shared memory structures**, built using the `union` structure combined with the `enum` structure (which contains the type index). This method is easier to depure than the pointer method, thought requires certain attention for the programmer to control the value contained by the variable. 
 
 ## About This Project
 
-The source codes presented here currently implements, using the `union`/`enum` approach previously described, an example of a single dynamic list.
+The source codes presented here implements, using the `union`/`enum` approach previously described, an example of a single dynamic list.
 
 Using the `union` type, it's possible to allocate multiple variables in a same memory block. For example, consider the following code lines from the file [ArrayElement.c](libraries/ArrayElement.c):
 
@@ -99,7 +99,7 @@ which guarantee that the data can be correctly treated.
 
 ## Additional Info
 
-Since this is a work in progress, probably I will add more features in the future (e.g. stacks, sparses matrices and trees). Stay tuned!
+Since this is a work in progress, probably I will add more features in the future (e.g. stacks, sparse matrices and trees). Stay tuned!
 
 ## License
 
