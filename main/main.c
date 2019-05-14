@@ -5,8 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../libraries/ArrayElement.c"
-#include "../libraries/ArrayList.c"
+#include "../libraries/Element.c"
+#include "../libraries/List.c"
+#include "../libraries/Stack.c"
 
 /**-----------------------------------------------------
                     Main function
@@ -15,31 +16,23 @@
 int main()
 {
     //  Initializing elements.
-    ArrayList *list = new_ArrayList();
+    List *list = new_List();
 
-    ArrayElement *elem1 = new_ArrayElement();
-    ArrayElement *elem2 = new_ArrayElement();
-    ArrayElement *elem3 = new_ArrayElement();
-    ArrayElement *elem4 = new_ArrayElement();
-    ArrayElement *elem5 = new_ArrayElement();
+    //  Setting an empty element for example.
+    Element *elem1 = new_Element();
+    setAsInt_Element(elem1, 1);
 
-    //  Defining elements.
-    setAsChar_ArrayElement(elem1, 'x');
-    setAsFloat_ArrayElement(elem2, 2.1f);
-    setAsFloat_ArrayElement(elem3, 3.6f);
-    setAsFloat_ArrayElement(elem4, 4.9f);
-    setAsFloat_ArrayElement(elem5, 5.3f);
+    //  Adding the empty and others elements to the stack.
+    addFirst_List(list, elem1);
+    addLast_List(list, new_CharElement('t'));
+    addLast_List(list, new_IntElement(3));
+    addLast_List(list, new_FloatElement(4.0f));
+    addLast_List(list, new_StringElement("five"));
 
-    //  Adding elements to the list.
-    addLast_ArrayList(list, elem1);
-    addLast_ArrayList(list, elem2);
-    addLast_ArrayList(list, elem3);
-    addLast_ArrayList(list, elem4);
-    addLast_ArrayList(list, elem5);
+    print_List(list);
 
-    //  Finishing and disposing.
-    print_ArrayList(list);
-    dispose_ArrayList(list);
+    //  Disposing and finishing.
+    dispose_List(list);
 
     return 0;
 }
