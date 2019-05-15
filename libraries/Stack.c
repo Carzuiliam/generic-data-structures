@@ -11,7 +11,7 @@
 //  Creates an empty array list.
 Stack* new_Stack()
 {
-    Stack *stack = (Stack*) malloc(sizeof (Stack));
+    Stack *stack = malloc(sizeof (Stack));
 
     if (stack != NULL)
     {

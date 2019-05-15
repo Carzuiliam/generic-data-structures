@@ -4,16 +4,14 @@
 
 typedef struct Coordinate
 {
-    enum Type
+    enum C_Type
     {
-        CHAR,
-        FLOAT,
-        INTEGER,
-        STRING
+        C_FLOAT,
+        C_INTEGER
     }
     type;
 
-    union Value
+    union C_Value
     {
         char c;
         float f;
@@ -22,14 +20,25 @@ typedef struct Coordinate
     }
     value;
 
-    int i;
-    int j;
+    int row;
+    int col;
 
-    struct Coordinate *nextX;
-    struct Coordinate *nextY;
+    struct Coordinate *nextRow;
+    struct Coordinate *nextCol;
 }
 Coordinate;
 
 /**-----------------------------------------------------
                     Functions prototypes
  -----------------------------------------------------*/
+
+Coordinate* new_Coordinate(int _row, int _col);
+Coordinate* new_FloatCoordinate(int _row, int _col, float _value);
+Coordinate* new_IntCoordinate(int _row, int _col, int _value);
+
+void dispose_Coordinate(Coordinate *coord);
+
+void setAsFloat_Coordinate(Coordinate *coord, float _value);
+void setAsInt_Coordinate(Coordinate *coord, int _value);
+
+void print_Coordinate(Coordinate *coord);

@@ -2,12 +2,18 @@
                     Program includes
  -----------------------------------------------------*/
 
+#define NUM_ROWS    4
+#define NUM_COLS    5
+
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "../libraries/Element.c"
+#include "../libraries/Coordinate.c"
+
 #include "../libraries/List.c"
 #include "../libraries/Stack.c"
+#include "../libraries/Matrix.c"
 
 /**-----------------------------------------------------
                     Main function
@@ -15,24 +21,16 @@
 
 int main()
 {
-    //  Initializing elements.
-    List *list = new_List();
+    Matrix *matrix = new_Matrix(NUM_ROWS, NUM_COLS);
 
-    //  Setting an empty element for example.
-    Element *elem1 = new_Element();
-    setAsInt_Element(elem1, 1);
+    addTo_Matrix(matrix, new_IntCoordinate(0, 0, 10));
+    addTo_Matrix(matrix, new_IntCoordinate(1, 1, 1));
+    addTo_Matrix(matrix, new_FloatCoordinate(2, 2, 2.0f));
+    addTo_Matrix(matrix, new_FloatCoordinate(3, 3, 3.5f));
+    addTo_Matrix(matrix, new_FloatCoordinate(3, 4, 4.9f));
 
-    //  Adding the empty and others elements to the stack.
-    addFirst_List(list, elem1);
-    addLast_List(list, new_CharElement('t'));
-    addLast_List(list, new_IntElement(3));
-    addLast_List(list, new_FloatElement(4.0f));
-    addLast_List(list, new_StringElement("five"));
-
-    print_List(list);
-
-    //  Disposing and finishing.
-    dispose_List(list);
+    print_Matrix(matrix);
+    dispose_Matrix(matrix);
 
     return 0;
 }

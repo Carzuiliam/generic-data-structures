@@ -11,7 +11,7 @@
 //  Creates an empty element.
 Element* new_Element()
 {
-    Element *element = (Element*) malloc(sizeof (Element));
+    Element *element = malloc(sizeof (Element));
 
     if (element != NULL)
     {
@@ -24,11 +24,11 @@ Element* new_Element()
 //  Creates a char element.
 Element* new_CharElement(char _value)
 {
-    Element *element = (Element*) malloc(sizeof (Element));
+    Element *element = malloc(sizeof (Element));
 
     if (element != NULL)
     {
-        element->type = CHAR;
+        element->type = E_CHAR;
         element->value.c = _value;
         element->next = NULL;
     }
@@ -39,11 +39,11 @@ Element* new_CharElement(char _value)
 //  Creates a float element.
 Element* new_FloatElement(float _value)
 {
-    Element *element = (Element*) malloc(sizeof (Element));
+    Element *element = malloc(sizeof (Element));
 
     if (element != NULL)
     {
-        element->type = FLOAT;
+        element->type = E_FLOAT;
         element->value.f = _value;
         element->next = NULL;
     }
@@ -54,11 +54,11 @@ Element* new_FloatElement(float _value)
 //  Creates an integer element.
 Element* new_IntElement(int _value)
 {
-    Element *element = (Element*) malloc(sizeof (Element));
+    Element *element = malloc(sizeof (Element));
 
     if (element != NULL)
     {
-        element->type = INTEGER;
+        element->type = E_INTEGER;
         element->value.i = _value;
         element->next = NULL;
     }
@@ -69,11 +69,11 @@ Element* new_IntElement(int _value)
 //  Creates a string element.
 Element* new_StringElement(char* _value)
 {
-    Element *element = (Element*) malloc(sizeof (Element));
+    Element *element = malloc(sizeof (Element));
 
     if (element != NULL)
     {
-        element->type = STRING;
+        element->type = E_STRING;
         element->value.s = _value;
         element->next = NULL;
     }
@@ -106,7 +106,7 @@ void setAsChar_Element(Element *_element, char _value)
 {
     if (_element == NULL) return;
 
-    _element->type = CHAR;
+    _element->type = E_CHAR;
     _element->value.c = _value;
 
     return;
@@ -117,7 +117,7 @@ void setAsFloat_Element(Element *_element, float _value)
 {
     if (_element == NULL) return;
 
-    _element->type = FLOAT;
+    _element->type = E_FLOAT;
     _element->value.f = _value;
 
     return;
@@ -128,7 +128,7 @@ void setAsInt_Element(Element *_element, int _value)
 {
     if (_element == NULL) return;
 
-    _element->type = INTEGER;
+    _element->type = E_INTEGER;
     _element->value.i = _value;
 
     return;
@@ -139,7 +139,7 @@ void setAsString_Element(Element *_element, char *_value)
 {
     if (_element == NULL) return;
 
-    _element->type = STRING;
+    _element->type = E_STRING;
     _element->value.s = _value;
 
     return;
@@ -156,19 +156,19 @@ void print_Element(Element *_element)
 
     switch (_element->type)
     {
-        case CHAR:
+        case E_CHAR:
             printf("[%c]", _element->value.c);
             break;
 
-        case FLOAT:
+        case E_FLOAT:
             printf("[%.2f]", _element->value.f);
             break;
 
-        case INTEGER:
+        case E_INTEGER:
             printf("[%i]", _element->value.i);
             break;
 
-        case STRING:
+        case E_STRING:
             printf("[%s]", _element->value.s);
             break;
     }

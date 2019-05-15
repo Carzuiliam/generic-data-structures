@@ -4,16 +4,16 @@
 
 typedef struct Element
 {
-    enum Type
+    enum E_Type
     {
-        CHAR,
-        FLOAT,
-        INTEGER,
-        STRING
+        E_CHAR,
+        E_FLOAT,
+        E_INTEGER,
+        E_STRING
     }
     type;
 
-    union Value
+    union E_Value
     {
         char c;
         float f;

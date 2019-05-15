@@ -9,16 +9,52 @@
  -----------------------------------------------------*/
 
 //  Creates an empty matrix coordinate.
-Coordinate* new_Coordinate()
+Coordinate* new_Coordinate(int _row, int _col)
 {
-    Coordinate *coord = (Coordinate*) malloc(sizeof (Coordinate));
+    Coordinate *coord = malloc(sizeof (Coordinate));
 
     if (coord != NULL)
     {
-        coord->i = 0;
-        coord->j = 0;
-        coord->nextX = NULL;
-        coord->nextY = NULL;
+        coord->row = _row;
+        coord->col = _col;
+        coord->nextRow = NULL;
+        coord->nextCol = NULL;
+    }
+
+    return coord;
+}
+
+//  Creates a float coordinate.
+Coordinate* new_FloatCoordinate(int _row, int _col, float _value)
+{
+    Coordinate *coord = malloc(sizeof (Coordinate));
+
+    if (coord != NULL)
+    {
+        coord->row = _row;
+        coord->col = _col;
+        coord->type = C_FLOAT;
+        coord->value.f = _value;
+        coord->nextRow = NULL;
+        coord->nextCol = NULL;
+    }
+
+    return coord;
+}
+
+//  Creates an integer coordinate.
+Coordinate* new_IntCoordinate(int _row, int _col, int _value)
+{
+    Coordinate *coord = malloc(sizeof (Coordinate));
+
+    if (coord != NULL)
+    {
+        coord->row = _row;
+        coord->col = _col;
+        coord->type = C_INTEGER;
+        coord->value.i = _value;
+        coord->nextRow = NULL;
+        coord->nextCol = NULL;
     }
 
     return coord;
@@ -33,10 +69,8 @@ void dispose_Coordinate(Coordinate *coord)
 {
     if (coord == NULL) return;
 
-    coord->i = 0;
-    coord->j = 0;
-    coord->nextX = NULL;
-    coord->nextY = NULL;
+    coord->nextRow = NULL;
+    coord->nextCol = NULL;
 
     free(coord);
 
@@ -47,54 +81,24 @@ void dispose_Coordinate(Coordinate *coord)
                     Basic operations
  -----------------------------------------------------*/
 
-//  Adds a new coordinate which contains a char as a value.
-void setAsChar_Coordinate(Coordinate *coord, int _i, int _j, char _value)
-{
-    if (coord == NULL) return;
-
-    coord->i = _i;
-    coord->j = _j;
-    coord->type = CHAR;
-    coord->value.c = _value;
-
-    return;
-}
-
 //  Adds a new coordinate which contains a float as a value.
-void setAsFloat_Coordinate(Coordinate *coord, int _i, int _j, float _value)
+void setAsFloat_Coordinate(Coordinate *coord, float _value)
 {
     if (coord == NULL) return;
 
-    coord->i = _i;
-    coord->j = _j;
-    coord->type = FLOAT;
+    coord->type = C_FLOAT;
     coord->value.f = _value;
 
     return;
 }
 
 //  Adds a new coordinate which contains a int as a value.
-void setAsInt_Coordinate(Coordinate *coord, int _i, int _j, int _value)
+void setAsInt_Coordinate(Coordinate *coord, int _value)
 {
     if (coord == NULL) return;
 
-    coord->i = _i;
-    coord->j = _j;
-    coord->type = INTEGER;
+    coord->type = C_INTEGER;
     coord->value.i = _value;
-
-    return;
-}
-
-//  Adds a new coordinate which contains a char as a value.
-void setAsString_Coordinate(Coordinate *coord, int _i, int _j, char* _value)
-{
-    if (coord == NULL) return;
-
-    coord->i = _i;
-    coord->j = _j;
-    coord->type = STRING;
-    coord->value.s = _value;
 
     return;
 }
@@ -110,20 +114,12 @@ void print_Coordinate(Coordinate *coord)
 
     switch (coord->type)
     {
-        case CHAR:
-            printf("[%c]", coord->value.c);
+        case C_FLOAT:
+            printf("%6.2f", coord->value.f);
             break;
 
-        case FLOAT:
-            printf("[%.2f]", coord->value.f);
-            break;
-
-        case INTEGER:
-            printf("[%i]", coord->value.i);
-            break;
-
-        case STRING:
-            printf("[%s]", coord->value.s);
+        case C_INTEGER:
+            printf("%6i", coord->value.i);
             break;
     }
 

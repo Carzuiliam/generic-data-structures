@@ -11,7 +11,7 @@
 //  Creates an empty array list.
 List* new_List()
 {
-    List *list = (List*) malloc(sizeof (List));
+    List *list = malloc(sizeof (List));
 
     if (list != NULL)
     {
