@@ -37,13 +37,13 @@ void dispose_Stack(Stack *_stack)
 
         while (aux != NULL)
         {
-            free(elem);
+            dispose_Element(elem);
 
             elem = aux;
             aux = aux->next;
         }
 
-        free(elem);
+        dispose_Element(elem);
     }
 
     free(_stack);

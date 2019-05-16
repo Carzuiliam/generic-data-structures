@@ -15,6 +15,7 @@ Matrix* new_Matrix(int _numRows, int _numCols)
 
     if (matrix != NULL)
     {
+        matrix->nonZeros = 0;
         matrix->numRows = _numRows;
         matrix->numCols = _numCols;
 
@@ -49,13 +50,13 @@ void dispose_Matrix(Matrix *_matrix)
 
             while (aux != NULL)
             {
-                free(coord);
+                dispose_Coordinate(coord);
 
                 coord = aux;
                 aux = aux->nextCol;
             }
 
-            free(coord);
+            dispose_Coordinate(coord);
         }
     }
 
@@ -82,6 +83,7 @@ void addTo_Matrix(Matrix *_matrix, Coordinate *_coordinate)
     {
         _coordinate->nextCol = NULL;
         _matrix->rows[_coordinate->row] = _coordinate;
+        _matrix->nonZeros++;
     }
     else
     {
@@ -95,24 +97,28 @@ void addTo_Matrix(Matrix *_matrix, Coordinate *_coordinate)
 
         if (coordR->col < _coordinate->col)
         {
+            _coordinate->nextCol = NULL;
             coordR->nextCol = _coordinate;
         }
         else if (coordR->col == _coordinate->col)
         {
-            prev->nextCol = _coordinate;
             _coordinate->nextCol = coordR->nextCol;
+            prev->nextCol = _coordinate;
         }
         else
         {
-            prev->nextCol = _coordinate;
             _coordinate->nextCol = coordR;
+            prev->nextCol = _coordinate;
         }
+
+        _matrix->nonZeros++;
     }
 
     if (coordC == NULL)
     {
         _coordinate->nextRow = NULL;
         _matrix->cols[_coordinate->col] = _coordinate;
+        _matrix->nonZeros++;
     }
     else
     {
@@ -126,18 +132,21 @@ void addTo_Matrix(Matrix *_matrix, Coordinate *_coordinate)
 
         if (coordC->row < _coordinate->row)
         {
+            _coordinate->nextRow = NULL;
             coordC->nextRow = _coordinate;
         }
         else if (coordC->row == _coordinate->row)
         {
-            prev->nextRow = _coordinate;
             _coordinate->nextRow = coordC->nextRow;
+            prev->nextRow = _coordinate;
         }
         else
         {
-            prev->nextRow = _coordinate;
             _coordinate->nextRow = coordC;
+            prev->nextRow = _coordinate;
         }
+
+        _matrix->nonZeros++;
     }
 
     if (coordR != NULL && coordR->col == _coordinate->col)
@@ -154,6 +163,20 @@ void addTo_Matrix(Matrix *_matrix, Coordinate *_coordinate)
 }
 
 /**-----------------------------------------------------
+                    Removing nodes
+ -----------------------------------------------------*/
+
+//  Removes an element at the specific index of the matrix.
+void removeAt_Matrix(Matrix *_matrix, int _row, int _col)
+{
+    if (_matrix == NULL) return;
+    if (_row < 0 || _row >= _matrix->numRows) return;
+    if (_col < 0 || _col >= _matrix->numCols) return;
+
+    return;
+}
+
+/**-----------------------------------------------------
                     Structure info
  -----------------------------------------------------*/
 
@@ -162,25 +185,25 @@ void print_Matrix(Matrix *_matrix)
 {
     if (_matrix == NULL) return;
 
-    printf("     ");
+    printf(" Matrix ");
 
-    for (int i = 0; i < _matrix->numCols; i++)
+    for (int j = 0; j < _matrix->numCols; j++)
     {
-        printf("|  %2i  ", i);
+        printf("|  %3i  ", j);
     }
 
-    printf("|\n");
+    printf("|\n-");
 
-    for (int i = 0; i <= _matrix->numCols; i++)
+    for (int j = 0; j <= _matrix->numCols; j++)
     {
-        printf("-------");
+        printf("--------");
     }
 
     printf("\n");
 
     for (int i = 0; i < _matrix->numRows; i++)
     {
-        printf("| %2i |", i);
+        printf("|  %3i  |", i);
 
         Coordinate *aux = _matrix->rows[i];
 
@@ -188,11 +211,11 @@ void print_Matrix(Matrix *_matrix)
         {
             if (aux == NULL)
             {
-                printf((j < _matrix->numCols - 1) ? "     0 " : "     0");
+                printf((j < _matrix->numCols - 1) ? "      - " : "      -");
             }
             else if (j < aux->col)
             {
-                printf((j < _matrix->numCols - 1) ? "     0 " : "     0");
+                printf((j < _matrix->numCols - 1) ? "      - " : "      -");
             }
             else
             {
@@ -210,12 +233,79 @@ void print_Matrix(Matrix *_matrix)
         printf("|\n");
     }
 
+    printf("-");
+
     for (int i = 0; i <= _matrix->numCols; i++)
     {
-        printf("-------");
+        printf("--------");
+    }
+
+    printf("\n\n");
+
+    return;
+}
+
+//  Prints all the elements of the matrix, but transposed.
+void printT_Matrix(Matrix *_matrix)
+{
+    if (_matrix == NULL) return;
+
+    printf(" Matr_T ");
+
+    for (int i = 0; i < _matrix->numRows; i++)
+    {
+        printf("|  %3i  ", i);
+    }
+
+    printf("|\n-");
+
+    for (int i = 0; i <= _matrix->numRows; i++)
+    {
+        printf("--------");
     }
 
     printf("\n");
+
+    for (int j = 0; j < _matrix->numCols; j++)
+    {
+        printf("|  %3i  |", j);
+
+        Coordinate *aux = _matrix->cols[j];
+
+        for (int i = 0; i < _matrix->numRows; i++)
+        {
+            if (aux == NULL)
+            {
+                printf((i < _matrix->numRows - 1) ? "      - " : "      -");
+            }
+            else if (i < aux->row)
+            {
+                printf((i < _matrix->numRows - 1) ? "      - " : "      -");
+            }
+            else
+            {
+                print_Coordinate(aux);
+
+                if (i < _matrix->numRows - 1)
+                {
+                    printf(" ");
+                }
+
+                aux = aux->nextRow;
+            }
+        }
+
+        printf("|\n");
+    }
+
+    printf("-");
+
+    for (int i = 0; i <= _matrix->numRows; i++)
+    {
+        printf("--------");
+    }
+
+    printf("\n\n");
 
     return;
 }

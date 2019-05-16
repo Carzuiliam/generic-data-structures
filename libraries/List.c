@@ -37,13 +37,13 @@ void dispose_List(List *_list)
 
         while (aux != NULL)
         {
-            free(elem);
+            dispose_Element(elem);
 
             elem = aux;
             aux = aux->next;
         }
 
-        free(elem);
+        dispose_Element(elem);
     }
 
     free(_list);
