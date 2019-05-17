@@ -9,70 +9,70 @@
  -----------------------------------------------------*/
 
 //  Creates an empty matrix coordinate.
-Coordinate* new_Coordinate(int _row, int _col)
+Coordinate* new_Coordinate(unsigned int _i, unsigned int _j)
 {
     Coordinate *coord = malloc(sizeof (Coordinate));
 
     if (coord != NULL)
     {
-        coord->row = _row;
-        coord->col = _col;
-        coord->nextRow = NULL;
-        coord->nextCol = NULL;
+        coord->i = _i;
+        coord->j = _j;
+        coord->nextI = NULL;
+        coord->nextJ = NULL;
     }
 
     return coord;
 }
 
 //  Creates a char coordinate.
-Coordinate* new_CharCoordinate(int _row, int _col, char _value)
+Coordinate* new_CharCoordinate(unsigned int _i, unsigned int _j, char _value)
 {
     Coordinate *coord = malloc(sizeof (Coordinate));
 
     if (coord != NULL)
     {
-        coord->row = _row;
-        coord->col = _col;
+        coord->i = _i;
+        coord->j = _j;
         coord->type = C_CHAR;
         coord->value.c = _value;
-        coord->nextRow = NULL;
-        coord->nextCol = NULL;
+        coord->nextI = NULL;
+        coord->nextJ = NULL;
     }
 
     return coord;
 }
 
 //  Creates a float coordinate.
-Coordinate* new_FloatCoordinate(int _row, int _col, float _value)
+Coordinate* new_FloatCoordinate(unsigned int _i, unsigned int _j, float _value)
 {
     Coordinate *coord = malloc(sizeof (Coordinate));
 
     if (coord != NULL)
     {
-        coord->row = _row;
-        coord->col = _col;
+        coord->i = _i;
+        coord->j = _j;
         coord->type = C_FLOAT;
         coord->value.f = _value;
-        coord->nextRow = NULL;
-        coord->nextCol = NULL;
+        coord->nextI = NULL;
+        coord->nextJ = NULL;
     }
 
     return coord;
 }
 
 //  Creates an integer coordinate.
-Coordinate* new_IntCoordinate(int _row, int _col, int _value)
+Coordinate* new_IntCoordinate(unsigned int _i, unsigned int _j, int _value)
 {
     Coordinate *coord = malloc(sizeof (Coordinate));
 
     if (coord != NULL)
     {
-        coord->row = _row;
-        coord->col = _col;
+        coord->i = _i;
+        coord->j = _j;
         coord->type = C_INTEGER;
         coord->value.i = _value;
-        coord->nextRow = NULL;
-        coord->nextCol = NULL;
+        coord->nextI = NULL;
+        coord->nextJ = NULL;
     }
 
     return coord;
@@ -87,8 +87,8 @@ void dispose_Coordinate(Coordinate *_coord)
 {
     if (_coord == NULL) return;
 
-    _coord->nextRow = NULL;
-    _coord->nextCol = NULL;
+    _coord->nextI = NULL;
+    _coord->nextJ = NULL;
 
     free(_coord);
 

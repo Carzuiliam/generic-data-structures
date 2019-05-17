@@ -26,11 +26,11 @@ typedef struct Coordinate
     }
     value;
 
-    int row;
-    int col;
+    unsigned int i;
+    unsigned int j;
 
-    struct Coordinate *nextRow;
-    struct Coordinate *nextCol;
+    struct Coordinate *nextI;
+    struct Coordinate *nextJ;
 }
 Coordinate;
 
@@ -38,10 +38,10 @@ Coordinate;
                     Functions prototypes
  -----------------------------------------------------*/
 
-Coordinate* new_Coordinate(int _row, int _col);
-Coordinate* new_CharCoordinate(int _row, int _col, char _value);
-Coordinate* new_FloatCoordinate(int _row, int _col, float _value);
-Coordinate* new_IntCoordinate(int _row, int _col, int _value);
+Coordinate* new_Coordinate(unsigned int _i, unsigned int _j);
+Coordinate* new_CharCoordinate(unsigned int _i, unsigned int _j, char _value);
+Coordinate* new_FloatCoordinate(unsigned int _i, unsigned int _j, float _value);
+Coordinate* new_IntCoordinate(unsigned int _i, unsigned int _j, int _value);
 
 void dispose_Coordinate(Coordinate *coord);
 

@@ -10,13 +10,13 @@
 
 typedef struct Matrix
 {
-    int nonZeros;
+    int length;
 
-    int numRows;
-    int numCols;
+    unsigned int rows;
+    unsigned int cols;
 
-    struct Coordinate *rows[NUM_ROWS];
-    struct Coordinate *cols[NUM_COLS];
+    struct Coordinate *row[NUM_ROWS];
+    struct Coordinate *col[NUM_COLS];
 }
 Matrix;
 
@@ -24,12 +24,10 @@ Matrix;
                     Functions prototypes
  -----------------------------------------------------*/
 
-Matrix* new_Matrix(int _numRows, int _numCols);
+Matrix* new_Matrix(unsigned int _rows, unsigned int _cols);
 void dispose_Matrix(Matrix *_matrix);
 
 void addTo_Matrix(Matrix *_matrix, Coordinate *_coordinate);
-
-void removeAt_Matrix(Matrix *_matrix, int _row, int _col);
 
 void print_Matrix(Matrix *_matrix);
 void printT_Matrix(Matrix *_matrix);

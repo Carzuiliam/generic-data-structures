@@ -9,24 +9,24 @@
  -----------------------------------------------------*/
 
 //  Creates an empty matrix.
-Matrix* new_Matrix(int _numRows, int _numCols)
+Matrix* new_Matrix(unsigned int _rows, unsigned int _cols)
 {
     Matrix *matrix = malloc(sizeof (Matrix));
 
     if (matrix != NULL)
     {
-        matrix->nonZeros = 0;
-        matrix->numRows = _numRows;
-        matrix->numCols = _numCols;
+        matrix->length = 0;
+        matrix->rows = _rows;
+        matrix->cols = _cols;
 
-        for (int i = 0; i < matrix->numRows; i++)
+        for (int i = 0; i < matrix->rows; i++)
         {
-            matrix->rows[i] = NULL;
+            matrix->row[i] = NULL;
         }
 
-        for (int i = 0; i < matrix->numCols; i++)
+        for (int i = 0; i < matrix->cols; i++)
         {
-            matrix->cols[i] = NULL;
+            matrix->col[i] = NULL;
         }
     }
 
@@ -41,19 +41,19 @@ void dispose_Matrix(Matrix *_matrix)
 {
     if (_matrix == NULL) return;
 
-    for (int i = 0; i < _matrix->numRows; i++)
+    for (int i = 0; i < _matrix->rows; i++)
     {
-        if (_matrix->rows[i] != NULL)
+        if (_matrix->row[i] != NULL)
         {
-            Coordinate *coord = _matrix->rows[i];
-            Coordinate *aux = _matrix->rows[i]->nextCol;
+            Coordinate *coord = _matrix->row[i];
+            Coordinate *aux = _matrix->row[i]->nextJ;
 
             while (aux != NULL)
             {
                 dispose_Coordinate(coord);
 
                 coord = aux;
-                aux = aux->nextCol;
+                aux = aux->nextJ;
             }
 
             dispose_Coordinate(coord);
@@ -73,105 +73,101 @@ void dispose_Matrix(Matrix *_matrix)
 void addTo_Matrix(Matrix *_matrix, Coordinate *_coordinate)
 {
     if (_matrix == NULL || _coordinate == NULL) return;
-    if (_coordinate->row < 0 || _coordinate->row >= _matrix->numRows) return;
-    if (_coordinate->col < 0 || _coordinate->col >= _matrix->numCols) return;
+    if (_coordinate->i < 0 || _coordinate->i >= _matrix->rows) return;
+    if (_coordinate->j < 0 || _coordinate->j >= _matrix->cols) return;
 
-    Coordinate *coordR = _matrix->rows[_coordinate->row];
-    Coordinate *coordC = _matrix->cols[_coordinate->col];
+    Coordinate *coordI = _matrix->row[_coordinate->i];
+    Coordinate *coordJ = _matrix->col[_coordinate->j];
 
-    if (coordR == NULL)
+    if (coordI == NULL)
     {
-        _coordinate->nextCol = NULL;
-        _matrix->rows[_coordinate->row] = _coordinate;
-        _matrix->nonZeros++;
+        _matrix->row[_coordinate->i] = _coordinate;
+        _matrix->length++;
     }
     else
     {
-        Coordinate *prev = coordR;
-
-        while (coordR->nextCol != NULL && coordR->col <= _coordinate->col)
+        if (_coordinate->j < coordI->j)
         {
-            prev = coordR;
-            coordR = coordR->nextCol;
+            _coordinate->nextJ = coordI;
+            _matrix->row[_coordinate->i] = _coordinate;
+            _matrix->length++;
         }
-
-        if (coordR->col < _coordinate->col)
+        else if (_coordinate->j == coordI->j)
         {
-            _coordinate->nextCol = NULL;
-            coordR->nextCol = _coordinate;
+            _coordinate->nextJ = coordI->nextJ;
+            _matrix->row[_coordinate->i] = _coordinate;
         }
-        else if (coordR->col == _coordinate->col)
+        else if (coordI->nextJ == NULL)
         {
-            _coordinate->nextCol = coordR->nextCol;
-            prev->nextCol = _coordinate;
+            coordI->nextJ = _coordinate;
+            _matrix->length++;
         }
         else
         {
-            _coordinate->nextCol = coordR;
-            prev->nextCol = _coordinate;
-        }
+            Coordinate *prev = coordI;
+            coordI = coordI->nextJ;
 
-        _matrix->nonZeros++;
+            while (coordI != NULL && coordI->j < _coordinate->j)
+            {
+                prev = coordI;
+                coordI = coordI->nextJ;
+            }
+
+            _coordinate->nextJ = prev->nextJ;
+            prev->nextJ = _coordinate;
+            _matrix->length++;
+        }
     }
 
-    if (coordC == NULL)
+    if (coordJ == NULL)
     {
-        _coordinate->nextRow = NULL;
-        _matrix->cols[_coordinate->col] = _coordinate;
-        _matrix->nonZeros++;
+        _matrix->col[_coordinate->j] = _coordinate;
+        _matrix->length++;
     }
     else
     {
-        Coordinate *prev = coordC;
-
-        while (coordC->nextRow != NULL && coordC->row <= _coordinate->row)
+        if (_coordinate->i < coordJ->i)
         {
-            prev = coordC;
-            coordC = coordC->nextRow;
+            _coordinate->nextI = coordJ;
+            _matrix->col[_coordinate->j] = _coordinate;
+            _matrix->length++;
         }
-
-        if (coordC->row < _coordinate->row)
+        else if (_coordinate->i == coordJ->i)
         {
-            _coordinate->nextRow = NULL;
-            coordC->nextRow = _coordinate;
+            _coordinate->nextI = coordJ->nextI;
+            _matrix->col[_coordinate->j] = _coordinate;
         }
-        else if (coordC->row == _coordinate->row)
+        else if (coordJ->nextI == NULL)
         {
-            _coordinate->nextRow = coordC->nextRow;
-            prev->nextRow = _coordinate;
+            coordJ->nextI = _coordinate;
+            _matrix->length++;
         }
         else
         {
-            _coordinate->nextRow = coordC;
-            prev->nextRow = _coordinate;
+            Coordinate *prev = coordJ;
+            coordJ = coordJ->nextI;
+
+            while (coordJ != NULL && coordJ->i < _coordinate->i)
+            {
+                prev = coordJ;
+                coordJ = coordJ->nextI;
+            }
+
+            _coordinate->nextI = prev->nextI;
+            prev->nextI = _coordinate;
+            _matrix->length++;
         }
-
-        _matrix->nonZeros++;
     }
 
-    if (coordR != NULL && coordR->col == _coordinate->col)
+    if (coordI != NULL && coordI->j == _coordinate->j)
     {
-        dispose_Coordinate(coordR);
+        dispose_Coordinate(coordI);
     }
 
-    if (coordC != NULL && coordC->row == _coordinate->row)
+    if (coordJ != NULL && coordJ->i == _coordinate->i)
     {
-        dispose_Coordinate(coordC);
+        dispose_Coordinate(coordJ);
     }
-
-    return;
-}
-
-/**-----------------------------------------------------
-                    Removing nodes
- -----------------------------------------------------*/
-
-//  Removes an element at the specific index of the matrix.
-void removeAt_Matrix(Matrix *_matrix, int _row, int _col)
-{
-    if (_matrix == NULL) return;
-    if (_row < 0 || _row >= _matrix->numRows) return;
-    if (_col < 0 || _col >= _matrix->numCols) return;
 
     return;
 }
@@ -187,46 +183,46 @@ void print_Matrix(Matrix *_matrix)
 
     printf(" Matrix ");
 
-    for (int j = 0; j < _matrix->numCols; j++)
+    for (int j = 0; j < _matrix->cols; j++)
     {
         printf("|  %3i  ", j);
     }
 
     printf("|\n-");
 
-    for (int j = 0; j <= _matrix->numCols; j++)
+    for (int j = 0; j <= _matrix->cols; j++)
     {
         printf("--------");
     }
 
     printf("\n");
 
-    for (int i = 0; i < _matrix->numRows; i++)
+    for (int i = 0; i < _matrix->rows; i++)
     {
         printf("|  %3i  |", i);
 
-        Coordinate *aux = _matrix->rows[i];
+        Coordinate *aux = _matrix->row[i];
 
-        for (int j = 0; j < _matrix->numCols; j++)
+        for (int j = 0; j < _matrix->cols; j++)
         {
             if (aux == NULL)
             {
-                printf((j < _matrix->numCols - 1) ? "      - " : "      -");
+                printf((j < _matrix->cols - 1) ? "      - " : "      -");
             }
-            else if (j < aux->col)
+            else if (j < aux->j)
             {
-                printf((j < _matrix->numCols - 1) ? "      - " : "      -");
+                printf((j < _matrix->cols - 1) ? "      - " : "      -");
             }
             else
             {
                 print_Coordinate(aux);
 
-                if (j < _matrix->numCols - 1)
+                if (j < _matrix->cols - 1)
                 {
                     printf(" ");
                 }
 
-                aux = aux->nextCol;
+                aux = aux->nextJ;
             }
         }
 
@@ -235,7 +231,7 @@ void print_Matrix(Matrix *_matrix)
 
     printf("-");
 
-    for (int i = 0; i <= _matrix->numCols; i++)
+    for (int i = 0; i <= _matrix->cols; i++)
     {
         printf("--------");
     }
@@ -250,48 +246,48 @@ void printT_Matrix(Matrix *_matrix)
 {
     if (_matrix == NULL) return;
 
-    printf(" Matr_T ");
+    printf(" Matrix ");
 
-    for (int i = 0; i < _matrix->numRows; i++)
+    for (int i = 0; i < _matrix->rows; i++)
     {
         printf("|  %3i  ", i);
     }
 
     printf("|\n-");
 
-    for (int i = 0; i <= _matrix->numRows; i++)
+    for (int i = 0; i <= _matrix->rows; i++)
     {
         printf("--------");
     }
 
     printf("\n");
 
-    for (int j = 0; j < _matrix->numCols; j++)
+    for (int j = 0; j < _matrix->cols; j++)
     {
         printf("|  %3i  |", j);
 
-        Coordinate *aux = _matrix->cols[j];
+        Coordinate *aux = _matrix->col[j];
 
-        for (int i = 0; i < _matrix->numRows; i++)
+        for (int i = 0; i < _matrix->rows; i++)
         {
             if (aux == NULL)
             {
-                printf((i < _matrix->numRows - 1) ? "      - " : "      -");
+                printf((i < _matrix->rows - 1) ? "      - " : "      -");
             }
-            else if (i < aux->row)
+            else if (i < aux->i)
             {
-                printf((i < _matrix->numRows - 1) ? "      - " : "      -");
+                printf((i < _matrix->rows - 1) ? "      - " : "      -");
             }
             else
             {
                 print_Coordinate(aux);
 
-                if (i < _matrix->numRows - 1)
+                if (i < _matrix->rows - 1)
                 {
                     printf(" ");
                 }
 
-                aux = aux->nextRow;
+                aux = aux->nextI;
             }
         }
 
@@ -300,7 +296,7 @@ void printT_Matrix(Matrix *_matrix)
 
     printf("-");
 
-    for (int i = 0; i <= _matrix->numRows; i++)
+    for (int j = 0; j <= _matrix->rows; j++)
     {
         printf("--------");
     }
