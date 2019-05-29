@@ -73,8 +73,8 @@ void dispose_Matrix(Matrix *_matrix)
 void addTo_Matrix(Matrix *_matrix, Coordinate *_coordinate)
 {
     if (_matrix == NULL || _coordinate == NULL) return;
-    if (_coordinate->i < 0 || _coordinate->i >= _matrix->rows) return;
-    if (_coordinate->j < 0 || _coordinate->j >= _matrix->cols) return;
+    if (_coordinate->i >= _matrix->rows) return;
+    if (_coordinate->j >= _matrix->cols) return;
 
     Coordinate *coordI = _matrix->row[_coordinate->i];
     Coordinate *coordJ = _matrix->col[_coordinate->j];
@@ -170,6 +170,138 @@ void addTo_Matrix(Matrix *_matrix, Coordinate *_coordinate)
     }
 
     return;
+}
+
+/**-----------------------------------------------------
+                    Removing nodes
+ -----------------------------------------------------*/
+
+//  Removes an element at a specific position of the matrix.
+void removeAt_Matrix(Matrix *_matrix, unsigned int _i, unsigned int _j)
+{
+    if (_matrix == NULL) return;
+    if (_i >= _matrix->rows) return;
+    if (_j >= _matrix->cols) return;
+
+    Coordinate *coordI = _matrix->row[_i];
+    Coordinate *coordJ = _matrix->col[_j];
+
+    if (coordI == NULL || coordJ == NULL) return;
+    if (coordI->j > _j || coordJ->i > _i) return;
+
+    if (coordI->j == _j && coordJ->i == _i)
+    {
+        Coordinate *aux = coordI;
+
+        _matrix->row[_i] = _matrix->row[_i]->nextJ;
+        _matrix->col[_j] = _matrix->col[_j]->nextI;
+        _matrix->length--;
+
+        dispose_Coordinate(aux);
+    }
+    else if (coordJ->i == _i)
+    {
+        Coordinate *prevI = NULL;
+
+        while (coordI != NULL && coordI->j < _j)
+        {
+            prevI = coordI;
+            coordI = coordI->nextJ;
+        }
+
+        if (coordI != NULL && coordI->j == _j)
+        {
+            Coordinate *aux = coordI;
+
+            _matrix->col[_j] = _matrix->col[_j]->nextI;
+
+            prevI->nextJ = coordI->nextJ;
+            _matrix->length--;
+
+            dispose_Coordinate(aux);
+        }
+    }
+    else if (coordI->j == _j)
+    {
+        Coordinate *prevJ = NULL;
+
+        while (coordJ != NULL && coordJ->i < _i)
+        {
+            prevJ = coordJ;
+            coordJ = coordJ->nextI;
+        }
+
+        if (coordJ != NULL && coordJ->i == _i)
+        {
+            Coordinate *aux = coordJ;
+
+            _matrix->row[_i] = _matrix->row[_i]->nextJ;
+
+            prevJ->nextI = coordJ->nextI;
+            _matrix->length--;
+
+            dispose_Coordinate(aux);
+        }
+    }
+    else
+    {
+        Coordinate *prevI = NULL;
+        Coordinate *prevJ = NULL;
+
+        while (coordI != NULL && coordI->j < _j)
+        {
+            prevI = coordI;
+            coordI = coordI->nextJ;
+        }
+
+        while (coordJ != NULL && coordJ->i < _i)
+        {
+            prevJ = coordJ;
+            coordJ = coordJ->nextI;
+        }
+
+        if (coordI != NULL && coordJ != NULL &&
+            coordI->j == _j && coordJ->i == _i)
+        {
+            Coordinate *aux = coordI;
+
+            prevI->nextJ = coordI->nextJ;
+            prevJ->nextI = coordJ->nextI;
+            _matrix->length--;
+
+            dispose_Coordinate(aux);
+        }
+    }
+
+    return;
+}
+
+/**-----------------------------------------------------
+                    Finding nodes
+ -----------------------------------------------------*/
+
+//  Returns a coordinate at the specific position of the matrix.
+Coordinate* getAt_Matrix(Matrix *_matrix, unsigned int _i, unsigned int _j)
+{
+    if (_matrix == NULL) return NULL;
+    if (_i >= _matrix->rows) return NULL;
+    if (_j >= _matrix->cols) return NULL;
+
+    if (_matrix->row[_i] == NULL || _matrix->col[_j] == NULL) return NULL;
+
+    Coordinate *aux = _matrix->row[_i];
+
+    while (aux != NULL && aux->j < _j)
+    {
+        aux = aux->nextJ;
+    }
+
+    if (aux == NULL || aux->j > _j)
+    {
+        aux = new_IntCoordinate(_i, _j, 0);
+    }
+
+    return aux;
 }
 
 /**-----------------------------------------------------

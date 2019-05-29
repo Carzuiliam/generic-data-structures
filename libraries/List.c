@@ -78,11 +78,34 @@ void addFirst_List(List *_list, Element *_element)
     return;
 }
 
-//  Adds an element at the specific index of the array list.
-void addAt_List(List *_list, Element *_element, int _index)
+//  Adds an element at the end of the array list.
+void addLast_List(List *_list, Element *_element)
 {
     if (_list == NULL || _element == NULL) return;
-    if (_index < 0 || _index > _list->lenght) return;
+
+    if (_list->start == NULL)
+    {
+        _list->start = _element;
+        _list->lenght++;
+    }
+    else
+    {
+        Element *aux = _list->start;
+
+        while (aux->next != NULL) aux = aux->next;
+
+        aux->next = _element;
+        _list->lenght++;
+    }
+
+    return;
+}
+
+//  Adds an element at the specific index of the array list.
+void addAt_List(List *_list, Element *_element, unsigned int _index)
+{
+    if (_list == NULL || _element == NULL) return;
+    if (_index > _list->lenght) return;
 
     if (_index == 0)
     {
@@ -110,29 +133,6 @@ void addAt_List(List *_list, Element *_element, int _index)
     return;
 }
 
-//  Adds an element at the end of the array list.
-void addLast_List(List *_list, Element *_element)
-{
-    if (_list == NULL || _element == NULL) return;
-
-    if (_list->start == NULL)
-    {
-        _list->start = _element;
-        _list->lenght++;
-    }
-    else
-    {
-        Element *aux = _list->start;
-
-        while (aux->next != NULL) aux = aux->next;
-
-        aux->next = _element;
-        _list->lenght++;
-    }
-
-    return;
-}
-
 /**-----------------------------------------------------
                     Removing nodes
  -----------------------------------------------------*/
@@ -149,40 +149,6 @@ void removeFirst_List(List *_list)
     _list->lenght--;
 
     dispose_Element(aux);
-
-    return;
-}
-
-//  Removes an element at the specific index of the array list.
-void removeAt_List(List *_list, int _index)
-{
-    if (_list == NULL) return;
-    if (_index < 0 || _index > _list->lenght - 1) return;
-
-    if (_index == 0)
-    {
-        removeFirst_List(_list);
-    }
-    else if (_index == _list->lenght - 1)
-    {
-        removeLast_List(_list);
-    }
-    else
-    {
-        Element *prev = NULL;
-        Element *aux = _list->start;
-
-        for (int i = 0; i < _index; i++)
-        {
-            prev = aux;
-            aux = aux->next;
-        }
-
-        prev->next = aux->next;
-        _list->lenght--;
-
-        dispose_Element(aux);
-    }
 
     return;
 }
@@ -222,6 +188,41 @@ void removeLast_List(List *_list)
     return;
 }
 
+//  Removes an element at the specific index of the array list.
+void removeAt_List(List *_list, unsigned int _index)
+{
+    if (_list == NULL) return;
+    if (_list->start == NULL) return;
+    if (_index > _list->lenght - 1) return;
+
+    if (_index == 0)
+    {
+        removeFirst_List(_list);
+    }
+    else if (_index == _list->lenght - 1)
+    {
+        removeLast_List(_list);
+    }
+    else
+    {
+        Element *prev = NULL;
+        Element *aux = _list->start;
+
+        for (int i = 0; i < _index; i++)
+        {
+            prev = aux;
+            aux = aux->next;
+        }
+
+        prev->next = aux->next;
+        _list->lenght--;
+
+        dispose_Element(aux);
+    }
+
+    return;
+}
+
 /**-----------------------------------------------------
                     Finding nodes
  -----------------------------------------------------*/
@@ -230,35 +231,7 @@ void removeLast_List(List *_list)
 Element* getFirst_List(List *_list)
 {
     if (_list == NULL) return NULL;
-
     return _list->start;
-}
-
-//  Returns an element at the specific index of the array list.
-Element* getAt_List(List *_list, int _index)
-{
-    if (_list == NULL) return NULL;
-    if (_index < 0 || _index > _list->lenght - 1) return NULL;
-
-    if (_index == 0)
-    {
-        return getFirst_List(_list);
-    }
-    else if (_index == _list->lenght - 1)
-    {
-        return getLast_List(_list);
-    }
-    else
-    {
-        Element *aux = _list->start;
-
-        for (int i = 0; i < _index; i++)
-        {
-            aux = aux->next;
-        }
-
-        return aux;
-    }
 }
 
 //  Returns the element at the end of the array list.
@@ -276,6 +249,33 @@ Element* getLast_List(List *_list)
         Element *aux = _list->start;
 
         while (aux->next != NULL)
+        {
+            aux = aux->next;
+        }
+
+        return aux;
+    }
+}
+
+//  Returns an element at the specific index of the array list.
+Element* getAt_List(List *_list, unsigned int _index)
+{
+    if (_list == NULL) return NULL;
+    if (_index > _list->lenght - 1) return NULL;
+
+    if (_index == 0)
+    {
+        return getFirst_List(_list);
+    }
+    else if (_index == _list->lenght - 1)
+    {
+        return getLast_List(_list);
+    }
+    else
+    {
+        Element *aux = _list->start;
+
+        for (int i = 0; i < _index; i++)
         {
             aux = aux->next;
         }

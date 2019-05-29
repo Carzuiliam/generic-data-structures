@@ -10,7 +10,7 @@
 
 typedef struct Stack
 {
-    int height;
+    unsigned int height;
     struct Element *base;
 }
 Stack;
