@@ -10,7 +10,6 @@
 
 typedef struct SingleList
 {
-    unsigned int lenght;
     struct Element *start;
 }
 SingleList;
@@ -34,4 +33,5 @@ Element* getFirst_SingleList(SingleList*);
 Element* getLast_SingleList(SingleList*);
 Element* getAt_SingleList(SingleList*, unsigned int);
 
+unsigned int length_SingleList(SingleList*);
 void print_List(SingleList*);

@@ -8,31 +8,29 @@
                     Structure definition
  -----------------------------------------------------*/
 
-typedef struct Matrix
+typedef struct SparseMatrix
 {
-    unsigned int length;
-
     unsigned int rows;
     unsigned int cols;
 
     struct Coordinate *row[NUM_ROWS];
     struct Coordinate *col[NUM_COLS];
 }
-Matrix;
+SparseMatrix;
 
 /**-----------------------------------------------------
                     Functions prototypes
  -----------------------------------------------------*/
 
-Matrix* new_Matrix(unsigned int, unsigned int);
-void dispose_Matrix(Matrix*);
+SparseMatrix* new_SparseMatrix(unsigned int, unsigned int);
+void dispose_SparseMatrix(SparseMatrix*);
 
-void addTo_Matrix(Matrix*, Coordinate*);
+void addTo_SparseMatrix(SparseMatrix*, Coordinate*);
 
-void removeAt_Matrix(Matrix*, unsigned int, unsigned int);
+void removeAt_SparseMatrix(SparseMatrix*, unsigned int, unsigned int);
 
-Coordinate* getAt_Matrix(Matrix*, unsigned int, unsigned int);
+Coordinate* getAt_SparseMatrix(SparseMatrix*, unsigned int, unsigned int);
 
-void print_Matrix(Matrix*);
-void printT_Matrix(Matrix*);
+void print_Matrix(SparseMatrix*);
+void printT_Matrix(SparseMatrix*);
 

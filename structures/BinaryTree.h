@@ -8,18 +8,21 @@
                     Structure definition
  -----------------------------------------------------*/
 
-typedef struct Tree
+typedef struct BinaryTree
 {
-    unsigned int lenght;
     struct Node *root;
 }
-Tree;
+BinaryTree;
 
 /**-----------------------------------------------------
                     Functions prototypes
  -----------------------------------------------------*/
 
-Tree* new_Tree();
-void dispose_Tree(Tree*);
+BinaryTree* new_BinaryTree();
+void dispose_Tree(BinaryTree*);
 
-void addTo_Tree(Tree*, Node*);
+void addTo_BinaryTree(BinaryTree*, Node*);
+
+unsigned int length_BinaryTree(BinaryTree*);
+unsigned int height_BinaryTree(BinaryTree*);
+void print_BinaryTree(BinaryTree*);

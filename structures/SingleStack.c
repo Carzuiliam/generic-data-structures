@@ -15,7 +15,6 @@ SingleStack* new_SingleStack()
 
     if (stack != NULL)
     {
-        stack->height = 0;
         stack->base = NULL;
     }
 
@@ -63,7 +62,6 @@ void push_SingleStack(SingleStack *_singleStack, Element *_element)
     if (_singleStack->base == NULL)
     {
         _singleStack->base = _element;
-        _singleStack->height++;
     }
     else
     {
@@ -72,7 +70,6 @@ void push_SingleStack(SingleStack *_singleStack, Element *_element)
         while (aux->next != NULL) aux = aux->next;
 
         aux->next = _element;
-        _singleStack->height++;
     }
 
     return;
@@ -89,7 +86,6 @@ void pop_SingleStack(SingleStack *_singleStack)
         Element *aux = _singleStack->base->next;
 
         _singleStack->base = NULL;
-        _singleStack->height--;
 
         dispose_Element(aux);
     }
@@ -105,7 +101,6 @@ void pop_SingleStack(SingleStack *_singleStack)
         }
 
         prev->next = NULL;
-        _singleStack->height--;
 
         dispose_Element(aux);
     }
@@ -140,6 +135,25 @@ Element* peek_SingleStack(SingleStack *_singleStack)
                     Structure info
  -----------------------------------------------------*/
 
+//  Returns the height of the stack.
+unsigned int height_SingleStack(SingleStack *_singleStack)
+{
+    if (_singleStack == NULL) return 0;
+    if (_singleStack->base == NULL) return 0;
+
+    unsigned int height = 0;
+
+    Element *elem = _singleStack->base;
+
+    while (elem != NULL)
+    {
+        elem = elem->next;
+        height++;
+    }
+
+    return height;
+}
+
 //  Prints all the elements of the stack.
 void print_SingleStack(SingleStack *_singleStack)
 {
@@ -160,7 +174,7 @@ void print_SingleStack(SingleStack *_singleStack)
     }
 
     printf("\n");
-    printf("|Height |-[%d]\n", _singleStack->height);
+    printf("|Height |-[%d]\n", height_SingleStack(_singleStack));
     printf("---------\n");
 
     return;

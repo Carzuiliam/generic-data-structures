@@ -15,6 +15,7 @@ Node* new_Node(int _index)
 
     if (node != NULL)
     {
+        node->index = 0;
         node->nextL = NULL;
         node->nextR = NULL;
     }
@@ -29,6 +30,7 @@ Node* new_CharNode(int _index, char _value)
 
     if (node != NULL)
     {
+        node->index = _index;
         node->type = N_CHAR;
         node->value.c = _value;
         node->nextL = NULL;
@@ -45,6 +47,7 @@ Node* new_FloatNode(int _index, float _value)
 
     if (node != NULL)
     {
+        node->index = _index;
         node->type = N_FLOAT;
         node->value.f = _value;
         node->nextL = NULL;
@@ -61,6 +64,7 @@ Node* new_IntNode(int _index, int _value)
 
     if (node != NULL)
     {
+        node->index = _index;
         node->type = N_INTEGER;
         node->value.i = _value;
         node->nextL = NULL;
@@ -77,6 +81,7 @@ Node* new_StringNode(int _index, char *_value)
 
     if (node != NULL)
     {
+        node->index = _index;
         node->type = N_STRING;
         node->value.s = _value;
         node->nextL = NULL;
@@ -95,6 +100,7 @@ void dispose_Node(Node *_node)
 {
     if (_node == NULL) return;
 
+    _node->index = 0;
     _node->nextL = NULL;
     _node->nextR = NULL;
 
@@ -164,25 +170,25 @@ void print_Node(Node *_node)
     {
         case N_CHAR:
             {
-                printf("(#i)[%c]", _node->index, _node->value.c);
+                printf("(#%i)[%c]", _node->index, _node->value.c);
             }
             break;
 
         case N_FLOAT:
             {
-                printf("(#i)[%.2f]", _node->index,  _node->value.f);
+                printf("(#%i)[%.2f]", _node->index,  _node->value.f);
             }
             break;
 
         case N_INTEGER:
             {
-                printf("(#i)[%i]", _node->index,  _node->value.i);
+                printf("(#%i)[%i]", _node->index,  _node->value.i);
             }
             break;
 
         case N_STRING:
             {
-                printf("(#i)[%s]", _node->index,  _node->value.s);
+                printf("(#%i)[%s]", _node->index,  _node->value.s);
             }
             break;
     }

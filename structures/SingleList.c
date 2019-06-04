@@ -15,7 +15,6 @@ SingleList* new_SingleList()
 
     if (singleList != NULL)
     {
-        singleList->lenght = 0;
         singleList->start = NULL;
     }
 
@@ -64,7 +63,6 @@ void addFirst_SingleList(SingleList *_singleList, Element *_element)
     if (_singleList->start == NULL)
     {
         _singleList->start = _element;
-        _singleList->lenght++;
     }
     else
     {
@@ -72,7 +70,6 @@ void addFirst_SingleList(SingleList *_singleList, Element *_element)
 
         _singleList->start = _element;
         _element->next = aux;
-        _singleList->lenght++;
     }
 
     return;
@@ -86,7 +83,6 @@ void addLast_SingleList(SingleList *_singleList, Element *_element)
     if (_singleList->start == NULL)
     {
         _singleList->start = _element;
-        _singleList->lenght++;
     }
     else
     {
@@ -95,7 +91,6 @@ void addLast_SingleList(SingleList *_singleList, Element *_element)
         while (aux->next != NULL) aux = aux->next;
 
         aux->next = _element;
-        _singleList->lenght++;
     }
 
     return;
@@ -105,13 +100,13 @@ void addLast_SingleList(SingleList *_singleList, Element *_element)
 void addAt_SingleList(SingleList *_singleList, Element *_element, unsigned int _index)
 {
     if (_singleList == NULL || _element == NULL) return;
-    if (_index > _singleList->lenght) return;
+    if (_index > length_SingleList(_singleList)) return;
 
     if (_index == 0)
     {
         addFirst_SingleList(_singleList, _element);
     }
-    else if (_index == _singleList->lenght)
+    else if (_index == length_SingleList(_singleList))
     {
         addLast_SingleList(_singleList, _element);
     }
@@ -126,8 +121,6 @@ void addAt_SingleList(SingleList *_singleList, Element *_element, unsigned int _
 
         _element->next = pos->next;
         pos->next = _element;
-
-        _singleList->lenght++;
     }
 
     return;
@@ -146,7 +139,6 @@ void removeFirst_SingleList(SingleList *_singleList)
     Element *aux = _singleList->start;
 
     _singleList->start = _singleList->start->next;
-    _singleList->lenght--;
 
     dispose_Element(aux);
 
@@ -164,7 +156,6 @@ void removeLast_SingleList(SingleList *_singleList)
         Element *aux = _singleList->start->next;
 
         _singleList->start = NULL;
-        _singleList->lenght--;
 
         dispose_Element(aux);
     }
@@ -180,7 +171,6 @@ void removeLast_SingleList(SingleList *_singleList)
         }
 
         prev->next = NULL;
-        _singleList->lenght--;
 
         dispose_Element(aux);
     }
@@ -193,13 +183,13 @@ void removeAt_SingleList(SingleList *_singleList, unsigned int _index)
 {
     if (_singleList == NULL) return;
     if (_singleList->start == NULL) return;
-    if (_index > _singleList->lenght - 1) return;
+    if (_index > length_SingleList(_singleList)) return;
 
     if (_index == 0)
     {
         removeFirst_SingleList(_singleList);
     }
-    else if (_index == _singleList->lenght - 1)
+    else if (_index == length_SingleList(_singleList) - 1)
     {
         removeLast_SingleList(_singleList);
     }
@@ -215,7 +205,6 @@ void removeAt_SingleList(SingleList *_singleList, unsigned int _index)
         }
 
         prev->next = aux->next;
-        _singleList->lenght--;
 
         dispose_Element(aux);
     }
@@ -261,13 +250,13 @@ Element* getLast_SingleList(SingleList *_singleList)
 Element* getAt_SingleList(SingleList *_singleList, unsigned int _index)
 {
     if (_singleList == NULL) return NULL;
-    if (_index > _singleList->lenght - 1) return NULL;
+    if (_index > length_SingleList(_singleList) - 1) return NULL;
 
     if (_index == 0)
     {
         return getFirst_SingleList(_singleList);
     }
-    else if (_index == _singleList->lenght - 1)
+    else if (_index == length_SingleList(_singleList) - 1)
     {
         return getLast_SingleList(_singleList);
     }
@@ -287,6 +276,25 @@ Element* getAt_SingleList(SingleList *_singleList, unsigned int _index)
 /**-----------------------------------------------------
                     Structure info
  -----------------------------------------------------*/
+
+//  Returns the length of the single list.
+unsigned int length_SingleList(SingleList *_singleList)
+{
+    if (_singleList == NULL) return 0;
+    if (_singleList->start == NULL) return 0;
+
+    unsigned int length = 0;
+
+    Element *elem = _singleList->start;
+
+    while (elem != NULL)
+    {
+        elem = elem->next;
+        length++;
+    }
+
+    return length;
+}
 
 //  Prints all the elements of the single list.
 void print_SingleList(SingleList *_singleList)
@@ -308,7 +316,7 @@ void print_SingleList(SingleList *_singleList)
     }
 
     printf("\n");
-    printf("|Length |-[%d]\n", _singleList->lenght);
+    printf("|Length |-[%d]\n", length_SingleList(_singleList));
     printf("---------\n");
 
     return;

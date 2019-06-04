@@ -10,7 +10,6 @@
 
 typedef struct SingleStack
 {
-    unsigned int height;
     struct Element *base;
 }
 SingleStack;
@@ -27,4 +26,5 @@ void pop_SingleStack(SingleStack*);
 
 Element* peek_SingleStack(SingleStack*);
 
+unsigned int height_SingleStack(SingleStack*);
 void print_SingleStack(SingleStack*);
