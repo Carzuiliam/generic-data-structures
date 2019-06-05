@@ -34,7 +34,7 @@ void dispose_BinaryTree(BinaryTree *_binaryTree)
     {
         unsigned int length = length_BinaryTree(_binaryTree);
 
-        Node *nodes[length];
+        Node **nodes = malloc(length * sizeof (Node*));
 
         nodes[0] = _binaryTree->root;
 
@@ -49,18 +49,15 @@ void dispose_BinaryTree(BinaryTree *_binaryTree)
 
             while (j < length && nodes[j] != NULL) j++;
 
-            if (j < length)
+            if (nodes[i]->nextL != NULL)
             {
-                if (nodes[i]->nextL != NULL)
-                {
-                    nodes[j] = nodes[i]->nextL;
-                    j++;
-                }
+                nodes[j] = nodes[i]->nextL;
+                j++;
+            }
 
-                if (nodes[i]->nextR != NULL)
-                {
-                    nodes[j] = nodes[i]->nextR;
-                }
+            if (nodes[i]->nextR != NULL)
+            {
+                nodes[j] = nodes[i]->nextR;
             }
         }
 
@@ -68,6 +65,10 @@ void dispose_BinaryTree(BinaryTree *_binaryTree)
         {
             dispose_Node(nodes[i]);
         }
+
+        _binaryTree->root = NULL;
+
+        free(nodes);
     }
 
     free(_binaryTree);
@@ -122,30 +123,30 @@ unsigned int length_BinaryTree(BinaryTree *_binaryTree)
     if (_binaryTree == NULL) return 0;
     if (_binaryTree->root == NULL) return 0;
 
-    unsigned int length = 0;
+    unsigned int length = 1;
 
-    Node *root = _binaryTree->root;
-    Node **nodes = realloc(root, sizeof (Node*));
+    Node **nodes = malloc(sizeof (Node*));
 
-    if (nodes != NULL)
+    nodes[0] = _binaryTree->root;
+
+    for (int i = 0; i < length; i++)
     {
-        length++;
-
-        for (int i = 0; i < length; i++)
+        if (nodes[i]->nextL != NULL)
         {
-            if (nodes[i]->nextL != NULL)
-            {
-                //length++;
-            }
+            length++;
+            nodes = realloc(nodes, length * sizeof(Node*));
+            nodes[length - 1] = nodes[i]->nextL;
+        }
 
-            //if (nodes[i]->nextR != NULL)
-            //{
-            //    length++;
-            //    nodes = realloc(nodes, length * sizeof(Node));
-            //    nodes[length - 1] = nodes[i]->nextR;
-            //}
+        if (nodes[i]->nextR != NULL)
+        {
+            length++;
+            nodes = realloc(nodes, length * sizeof(Node*));
+            nodes[length - 1] = nodes[i]->nextR;
         }
     }
+
+    free(nodes);
 
     return length;
 }
@@ -156,9 +157,50 @@ unsigned int height_BinaryTree(BinaryTree *_binaryTree)
     if (_binaryTree == NULL) return 0;
     if (_binaryTree->root == NULL) return 0;
 
-    unsigned int height = 0;
+    unsigned int height = 1;
+    unsigned int length = length_BinaryTree(_binaryTree);
 
-    //  TODO
+    int level[length];
+    Node **nodes = malloc(length * sizeof (Node*));
+
+    for (int i = 0; i < length; i++)
+    {
+        level[i] = -1;
+        nodes[i] = NULL;
+    }
+
+    level[0] = 1;
+    nodes[0] = _binaryTree->root;
+
+    for (int i = 0; i < length; i++)
+    {
+        int j = 0;
+
+        while (j < length && nodes[j] != NULL) j++;
+
+        if (nodes[i]->nextL != NULL)
+        {
+            level[j] = level[i] + 1;
+            nodes[j] = nodes[i]->nextL;
+            j++;
+        }
+
+        if (nodes[i]->nextR != NULL)
+        {
+            level[j] = level[i] + 1;
+            nodes[j] = nodes[i]->nextR;
+        }
+    }
+
+    for (int i = 0; i < length; i++)
+    {
+        if (height < level[i])
+        {
+            height = level[i];
+        }
+    }
+
+    free(nodes);
 
     return height;
 }
@@ -170,10 +212,107 @@ void print_BinaryTree(BinaryTree *_binaryTree)
 
     if (_binaryTree->root != NULL)
     {
+        unsigned int length = length_BinaryTree(_binaryTree);
+        unsigned int height = height_BinaryTree(_binaryTree);
+
         printf("---------\n");
-        printf("|Count  |-");
-        printf("[%i]\n", length_BinaryTree(_binaryTree));
+        printf("| Count |-");
+        printf("[%i]\n", length);
         printf("---------\n");
+        printf("|Height |-");
+        printf("[%i]\n", height);
+        printf("---------\n");
+        printf("| Tree  |--\n");
+        printf("---------  |\n\n");
+
+        int maxLength = 1;
+        int index = 0;
+
+        for (int i = 0; i < height; i++)
+        {
+            maxLength += maxLength;
+        }
+
+        maxLength--;
+
+        Node **nodes = malloc(maxLength * sizeof (Node*));
+
+        for (int i = 0; i < maxLength; i++)
+        {
+            nodes[i] = NULL;
+        }
+
+        nodes[0] = _binaryTree->root;
+
+        for (int i = 0; i < maxLength; i++)
+        {
+            if (nodes[i] != NULL)
+            {
+                index++;
+
+                if (index < maxLength)
+                {
+                    nodes[index] = nodes[i]->nextL;
+                }
+
+                index++;
+
+                if (index < maxLength)
+                {
+                    nodes[index] = nodes[i]->nextR;
+                }
+            }
+            else
+            {
+                index++;
+
+                if (index < maxLength)
+                {
+                    nodes[index] = NULL;
+                }
+
+                index++;
+
+                if (index < maxLength)
+                {
+                    nodes[index] = NULL;
+                }
+            }
+        }
+
+        index = 1;
+        int factor = 1;
+        int spacing = height - 1;
+
+        for (int i = 0; i < maxLength; i++)
+        {
+            if (nodes[i] != NULL)
+            {
+                print_Node(nodes[i]);
+            }
+            else
+            {
+                printf("[         ]");
+            }
+
+            printf(" ");
+
+            if (index == factor)
+            {
+                spacing--;
+
+                index = 1;
+                factor += factor;
+
+                printf("\n");
+            }
+            else
+            {
+                index++;
+            }
+        }
+
+        free(nodes);
     }
 
     return;

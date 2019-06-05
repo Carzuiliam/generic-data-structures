@@ -43,6 +43,9 @@ void dispose_SingleStack(SingleStack *_singleStack)
         }
 
         dispose_Element(elem);
+        dispose_Element(aux);
+
+        _singleStack->base = NULL;
     }
 
     free(_singleStack);

@@ -100,7 +100,6 @@ void dispose_Node(Node *_node)
 {
     if (_node == NULL) return;
 
-    _node->index = 0;
     _node->nextL = NULL;
     _node->nextR = NULL;
 
@@ -170,25 +169,43 @@ void print_Node(Node *_node)
     {
         case N_CHAR:
             {
-                printf("(#%i)[%c]", _node->index, _node->value.c);
+                printf("[#%2i: %4c]", _node->index, _node->value.c);
             }
             break;
 
         case N_FLOAT:
             {
-                printf("(#%i)[%.2f]", _node->index,  _node->value.f);
+                printf("[#%2i: %4.2f]", _node->index,  _node->value.f);
             }
             break;
 
         case N_INTEGER:
             {
-                printf("(#%i)[%i]", _node->index,  _node->value.i);
+                printf("[#%2i: %4i]", _node->index,  _node->value.i);
             }
             break;
 
         case N_STRING:
             {
-                printf("(#%i)[%s]", _node->index,  _node->value.s);
+                int index = 0;
+
+                while (_node->value.s[index] != '\0') index++;
+
+                if (index < 4)
+                {
+                    printf("[#%2i: %4s]", _node->index,  _node->value.s);
+                }
+                else
+                {
+                    printf("[#%2i: ", _node->index);
+
+                    for (int pos = 0; pos < 3; pos++)
+                    {
+                        printf("%c", _node->value.s[pos]);
+                    }
+
+                    printf(".]");
+                }
             }
             break;
     }

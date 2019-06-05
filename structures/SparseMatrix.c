@@ -57,6 +57,17 @@ void dispose_SparseMatrix(SparseMatrix *_sparseMatrix)
             }
 
             dispose_Coordinate(coord);
+            dispose_Coordinate(aux);
+        }
+
+        for (int i = 0; i < _sparseMatrix->rows; i++)
+        {
+            _sparseMatrix->row[i] = NULL;
+        }
+
+        for (int i = 0; i < _sparseMatrix->cols; i++)
+        {
+            _sparseMatrix->col[i] = NULL;
         }
     }
 

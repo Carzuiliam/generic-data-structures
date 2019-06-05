@@ -202,12 +202,12 @@ void print_Coordinate(Coordinate *coord)
                 }
                 else
                 {
-                    for (int pos = 0; pos < 4; pos++)
+                    for (int pos = 0; pos < 6; pos++)
                     {
                         printf("%c", coord->value.s[pos]);
                     }
 
-                    printf("(+)");
+                    printf(".");
                 }
             }
             break;

@@ -44,6 +44,9 @@ void dispose_SingleList(SingleList *_singleList)
         }
 
         dispose_Element(elem);
+        dispose_Element(aux);
+
+        _singleList->start = NULL;
     }
 
     free(_singleList);
