@@ -160,25 +160,43 @@ unsigned int height_SingleStack(SingleStack *_singleStack)
 //  Prints all the elements of the stack.
 void print_SingleStack(SingleStack *_singleStack)
 {
-    if (_singleStack == NULL) return;
-
-    Element *aux = _singleStack->base;
-
-    printf("---------\n");
-    printf("|Stack  |-");
-
-    while (aux != NULL)
+    if (_singleStack == NULL)
     {
-        print_Element(aux);
-
-        aux = aux->next;
-
-        if (aux != NULL) printf("-");
+        printf("---------\n");
+        printf("|Stack  |-(null)");
+        printf("---------\n");
+        printf("|Height |-[0]\n");
+        printf("---------\n");
     }
+    else if (_singleStack->base == NULL)
+    {
+        printf("---------\n");
+        printf("|Stack  |-(empty)");
+        printf("---------\n");
+        printf("|Height |-[0]\n");
+        printf("---------\n");
+    }
+    else
+    {
+        Element *aux = _singleStack->base;
 
-    printf("\n");
-    printf("|Height |-[%d]\n", height_SingleStack(_singleStack));
-    printf("---------\n");
+        printf("---------\n");
+        printf("|Stack  |-");
+
+        while (aux != NULL)
+        {
+            print_Element(aux);
+
+            aux = aux->next;
+
+            if (aux != NULL) printf("-");
+        }
+
+        printf("\n");
+        printf("---------\n");
+        printf("|Height |-[%d]\n", height_SingleStack(_singleStack));
+        printf("---------\n");
+    }
 
     return;
 }

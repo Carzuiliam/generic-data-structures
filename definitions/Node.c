@@ -160,6 +160,92 @@ void setAsString_Node(Node *_node, char *_value)
                     Structure info
  -----------------------------------------------------*/
 
+//  Returns the number of leaves that are descendants of a specific node.
+unsigned int length_Node(Node *_node)
+{
+    if (_node == NULL) return 0;
+
+    unsigned int length = 1;
+
+    Node **nodes = malloc(sizeof (Node*));
+
+    nodes[0] = _node;
+
+    for (int i = 0; i < length; i++)
+    {
+        if (nodes[i]->nextL != NULL)
+        {
+            length++;
+            nodes = realloc(nodes, length * sizeof(Node*));
+            nodes[length - 1] = nodes[i]->nextL;
+        }
+
+        if (nodes[i]->nextR != NULL)
+        {
+            length++;
+            nodes = realloc(nodes, length * sizeof(Node*));
+            nodes[length - 1] = nodes[i]->nextR;
+        }
+    }
+
+    free(nodes);
+
+    return length;
+}
+
+//  Returns the height of a specific node.
+unsigned int height_Node(Node *_node)
+{
+    if (_node == NULL) return 0;
+
+    unsigned int height = 1;
+    unsigned int length = length_Node(_node);
+
+    int level[length];
+    Node **nodes = malloc(length * sizeof (Node*));
+
+    for (int i = 0; i < length; i++)
+    {
+        level[i] = -1;
+        nodes[i] = NULL;
+    }
+
+    level[0] = 1;
+    nodes[0] = _node;
+
+    for (int i = 0; i < length; i++)
+    {
+        int j = 0;
+
+        while (j < length && nodes[j] != NULL) j++;
+
+        if (nodes[i]->nextL != NULL)
+        {
+            level[j] = level[i] + 1;
+            nodes[j] = nodes[i]->nextL;
+            j++;
+        }
+
+        if (nodes[i]->nextR != NULL)
+        {
+            level[j] = level[i] + 1;
+            nodes[j] = nodes[i]->nextR;
+        }
+    }
+
+    for (int i = 0; i < length; i++)
+    {
+        if (height < level[i])
+        {
+            height = level[i];
+        }
+    }
+
+    free(nodes);
+
+    return height;
+}
+
 //  Prints a node.
 void print_Node(Node *_node)
 {

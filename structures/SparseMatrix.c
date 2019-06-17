@@ -308,64 +308,72 @@ Coordinate* getAt_SparseMatrix(SparseMatrix *_sparseMatrix, unsigned int _i, uns
 //  Prints all the elements of the sparse matrix.
 void print_SparseMatrix(SparseMatrix *_sparseMatrix)
 {
-    if (_sparseMatrix == NULL) return;
-
     printf(" Matrix ");
 
-    for (int j = 0; j < _sparseMatrix->cols; j++)
+    if (_sparseMatrix == NULL)
     {
-        printf("|  %3i  ", j);
+        printf("|       |\n");
+        printf("-----------------\n");
+        printf("|       |(null) |\n");
+        printf("-----------------\n\n");
     }
-
-    printf("|\n-");
-
-    for (int j = 0; j <= _sparseMatrix->cols; j++)
+    else
     {
-        printf("--------");
-    }
-
-    printf("\n");
-
-    for (int i = 0; i < _sparseMatrix->rows; i++)
-    {
-        printf("|  %3i  |", i);
-
-        Coordinate *aux = _sparseMatrix->row[i];
-
         for (int j = 0; j < _sparseMatrix->cols; j++)
         {
-            if (aux == NULL)
-            {
-                printf((j < _sparseMatrix->cols - 1) ? "      - " : "      -");
-            }
-            else if (j < aux->j)
-            {
-                printf((j < _sparseMatrix->cols - 1) ? "      - " : "      -");
-            }
-            else
-            {
-                print_Coordinate(aux);
-
-                if (j < _sparseMatrix->cols - 1)
-                {
-                    printf(" ");
-                }
-
-                aux = aux->nextJ;
-            }
+            printf("|  %3i  ", j);
         }
 
-        printf("|\n");
+        printf("|\n-");
+
+        for (int j = 0; j <= _sparseMatrix->cols; j++)
+        {
+            printf("--------");
+        }
+
+        printf("\n");
+
+        for (int i = 0; i < _sparseMatrix->rows; i++)
+        {
+            printf("|  %3i  |", i);
+
+            Coordinate *aux = _sparseMatrix->row[i];
+
+            for (int j = 0; j < _sparseMatrix->cols; j++)
+            {
+                if (aux == NULL)
+                {
+                    printf((j < _sparseMatrix->cols - 1) ? "      - " : "      -");
+                }
+                else if (j < aux->j)
+                {
+                    printf((j < _sparseMatrix->cols - 1) ? "      - " : "      -");
+                }
+                else
+                {
+                    print_Coordinate(aux);
+
+                    if (j < _sparseMatrix->cols - 1)
+                    {
+                        printf(" ");
+                    }
+
+                    aux = aux->nextJ;
+                }
+            }
+
+            printf("|\n");
+        }
+
+        printf("-");
+
+        for (int i = 0; i <= _sparseMatrix->cols; i++)
+        {
+            printf("--------");
+        }
+
+        printf("\n\n");
     }
-
-    printf("-");
-
-    for (int i = 0; i <= _sparseMatrix->cols; i++)
-    {
-        printf("--------");
-    }
-
-    printf("\n\n");
 
     return;
 }
@@ -373,64 +381,72 @@ void print_SparseMatrix(SparseMatrix *_sparseMatrix)
 //  Prints all the elements of the sparse matrix, but transposed.
 void printT_SparseMatrix(SparseMatrix *_sparseMatrix)
 {
-    if (_sparseMatrix == NULL) return;
-
     printf(" Matrix ");
 
-    for (int i = 0; i < _sparseMatrix->rows; i++)
+    if (_sparseMatrix == NULL)
     {
-        printf("|  %3i  ", i);
+        printf("|       |\n");
+        printf("-----------------\n");
+        printf("|       |(null) |\n");
+        printf("-----------------\n\n");
     }
-
-    printf("|\n-");
-
-    for (int i = 0; i <= _sparseMatrix->rows; i++)
+    else
     {
-        printf("--------");
-    }
-
-    printf("\n");
-
-    for (int j = 0; j < _sparseMatrix->cols; j++)
-    {
-        printf("|  %3i  |", j);
-
-        Coordinate *aux = _sparseMatrix->col[j];
-
         for (int i = 0; i < _sparseMatrix->rows; i++)
         {
-            if (aux == NULL)
-            {
-                printf((i < _sparseMatrix->rows - 1) ? "      - " : "      -");
-            }
-            else if (i < aux->i)
-            {
-                printf((i < _sparseMatrix->rows - 1) ? "      - " : "      -");
-            }
-            else
-            {
-                print_Coordinate(aux);
-
-                if (i < _sparseMatrix->rows - 1)
-                {
-                    printf(" ");
-                }
-
-                aux = aux->nextI;
-            }
+            printf("|  %3i  ", i);
         }
 
-        printf("|\n");
+        printf("|\n-");
+
+        for (int i = 0; i <= _sparseMatrix->rows; i++)
+        {
+            printf("--------");
+        }
+
+        printf("\n");
+
+        for (int j = 0; j < _sparseMatrix->cols; j++)
+        {
+            printf("|  %3i  |", j);
+
+            Coordinate *aux = _sparseMatrix->col[j];
+
+            for (int i = 0; i < _sparseMatrix->rows; i++)
+            {
+                if (aux == NULL)
+                {
+                    printf((i < _sparseMatrix->rows - 1) ? "      - " : "      -");
+                }
+                else if (i < aux->i)
+                {
+                    printf((i < _sparseMatrix->rows - 1) ? "      - " : "      -");
+                }
+                else
+                {
+                    print_Coordinate(aux);
+
+                    if (i < _sparseMatrix->rows - 1)
+                    {
+                        printf(" ");
+                    }
+
+                    aux = aux->nextI;
+                }
+            }
+
+            printf("|\n");
+        }
+
+        printf("-");
+
+        for (int j = 0; j <= _sparseMatrix->rows; j++)
+        {
+            printf("--------");
+        }
+
+        printf("\n\n");
     }
-
-    printf("-");
-
-    for (int j = 0; j <= _sparseMatrix->rows; j++)
-    {
-        printf("--------");
-    }
-
-    printf("\n\n");
 
     return;
 }

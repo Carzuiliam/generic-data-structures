@@ -52,4 +52,6 @@ void setAsFloat_Node(Node*, float);
 void setAsInt_Node(Node*, int);
 void setAsString_Node(Node*, char*);
 
+unsigned int length_Node(Node*);
+unsigned int height_Node(Node*);
 void print_Node(Node*);

@@ -23,6 +23,8 @@ void dispose_Tree(BinaryTree*);
 
 void addTo_BinaryTree(BinaryTree*, Node*);
 
+void removeAt_BinaryTree(BinaryTree*, unsigned int);
+
 unsigned int length_BinaryTree(BinaryTree*);
 unsigned int height_BinaryTree(BinaryTree*);
 void print_BinaryTree(BinaryTree*);

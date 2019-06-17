@@ -302,25 +302,43 @@ unsigned int length_SingleList(SingleList *_singleList)
 //  Prints all the elements of the single list.
 void print_SingleList(SingleList *_singleList)
 {
-    if (_singleList == NULL) return;
-
-    Element *aux = _singleList->start;
-
-    printf("---------\n");
-    printf("|Elem(s)|-");
-
-    while (aux != NULL)
+    if (_singleList == NULL)
     {
-        print_Element(aux);
-
-        aux = aux->next;
-
-        if (aux != NULL) printf("-");
+        printf("---------\n");
+        printf("|Elem(s)|-(null)");
+        printf("---------\n");
+        printf("|Length |-[0]\n");
+        printf("---------\n");
     }
+    else if (_singleList->start == NULL)
+    {
+        printf("---------\n");
+        printf("|Elem(s)|-(empty)");
+        printf("---------\n");
+        printf("|Length |-[0]\n");
+        printf("---------\n");
+    }
+    else
+    {
+        Element *aux = _singleList->start;
 
-    printf("\n");
-    printf("|Length |-[%d]\n", length_SingleList(_singleList));
-    printf("---------\n");
+        printf("---------\n");
+        printf("|Elem(s)|-");
+
+        while (aux != NULL)
+        {
+            print_Element(aux);
+
+            aux = aux->next;
+
+            if (aux != NULL) printf("-");
+        }
+
+        printf("\n");
+        printf("---------\n");
+        printf("|Length |-[%d]\n", length_SingleList(_singleList));
+        printf("---------\n");
+    }
 
     return;
 }

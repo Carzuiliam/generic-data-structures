@@ -96,12 +96,15 @@ void example_BinaryTree()
     BinaryTree *tree = new_BinaryTree();
 
     addTo_BinaryTree(tree, new_IntNode(50, 1));
-    addTo_BinaryTree(tree, new_StringNode(10, "start"));
+    addTo_BinaryTree(tree, new_StringNode(10, "hello"));
     addTo_BinaryTree(tree, new_IntNode(26, 99));
-    addTo_BinaryTree(tree, new_StringNode(14, "end"));
+    addTo_BinaryTree(tree, new_StringNode(5, "start"));
     addTo_BinaryTree(tree, new_CharNode(78, 'z'));
     addTo_BinaryTree(tree, new_FloatNode(62, 1.9));
     addTo_BinaryTree(tree, new_FloatNode(96, 4.7));
+
+    print_BinaryTree(tree);
+    removeAt_BinaryTree(tree, 50);
 
     print_BinaryTree(tree);
     dispose_BinaryTree(tree);
