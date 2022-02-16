@@ -105,4 +105,4 @@ Como isso é um trabalho em progresso, provavelmente adicionarei algumas coisas 
 
 ## Licença de Uso
 
-Os códigos disponibilizados aqui estão sob a licença Apache, versão 2.0 (veja o arquivo `LICENSE` em anexo para mais detalhes). Dúvidas sobre este projeto podem ser enviadas para o meu e-mail: carloswdecarvalho@outlook.com.
+Os códigos disponibilizados aqui estão sob a licença Apache, versão 2.0 (veja o arquivo `LICENSE` em anexo para mais detalhes). Dúvidas sobre este projeto podem ser enviadas para o meu e-mail: carloswilldecarvalho@outlook.com.
